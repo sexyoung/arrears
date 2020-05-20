@@ -1,0 +1,28 @@
+.App {
+  width: 1300px;
+  margin: 0 auto;
+
+  .form {
+    padding: 10px;
+
+    input {
+      padding: 5px;
+      font-size: 1rem;
+    }
+  }
+
+  .note {
+    margin: 10px;
+    width: 300px;
+    padding: 10px;
+    height: 200px;
+    overflow: auto;
+    display: inline-block;
+    box-sizing: border-box;
+    background-color: #f1d98a;
+    table {
+      width: 100%;
+      font-size: 15px;
+    }
+  }
+}
