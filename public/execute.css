@@ -1,0 +1,17 @@
+#crawingBG {
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: rgba(0, 0, 0, .8);
+}
+
+#crawing {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  background-color: #fff;
+  transform: translate(-50%, -50%);
+}

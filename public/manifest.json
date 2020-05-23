@@ -21,5 +21,24 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "manifest_version": 2,
+  "version": "1.0.0",
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "background_color": "#ffffff",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://dinbendon.net/*"
+      ],
+      "js": [
+        "execute.js"
+      ]
+    }
+  ]
 }
