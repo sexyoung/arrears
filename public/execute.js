@@ -36,6 +36,27 @@ const onMessage = (message) => {
 
 chrome.runtime.onMessage.addListener(onMessage);
 
+/**
+ * date
+ * user
+ * store
+ * bento
+ */
+function getID(data) {
+  let result = '';
+  const maxLen = Math.min(data.date.length,data.user.length,data.store.length,data.bento.length,)
+  for (let i = 0; i < maxLen; i++) {
+    result += (
+      (data.date[i] === undefined ? '': data.date[i]) +
+      (data.user[i] === undefined ? '': data.user[i]) +
+      (data.store[i] === undefined ? '': data.store[i]) +
+      (data.bento[i] === undefined ? '': data.bento[i])
+    );
+  }
+  
+  return result;
+}
+
 function size() {
 
   if(!(document.querySelector('.tab-row li:nth-of-type(2)').classList[0] === 'selected')) {
@@ -80,9 +101,14 @@ function startCrawCurr() {
       const notDoneList = [...document.getElementById('orderPage').contentWindow.document.querySelectorAll('.cell:not(.done)')].slice(0, -1).map(td => {
         // console.log(td);
         return {
+          id: getID({
+            ...linkList[trID],
+            bento: td.parentNode.children[0].innerText,
+            user: td.innerText,
+          }),
           date: linkList[trID].date,
           store: linkList[trID].store,
-          bendo: td.parentNode.children[0].innerText,
+          bento: td.parentNode.children[0].innerText,
           money: +td.parentNode.children[2].innerText,
           user: td.innerText
         }
@@ -147,9 +173,14 @@ function startCrawTotal() {
       const notDoneList = [...document.getElementById('orderPage').contentWindow.document.querySelectorAll('.cell:not(.done)')].slice(0, -1).map(td => {
         // console.log(td);
         return {
+          id: getID({
+            ...linkList[trID],
+            bento: td.parentNode.children[0].innerText,
+            user: td.innerText,
+          }),
           date: linkList[trID].date,
           store: linkList[trID].store,
-          bendo: td.parentNode.children[0].innerText,
+          bento: td.parentNode.children[0].innerText,
           money: +td.parentNode.children[2].innerText,
           user: td.innerText
         }

@@ -11,7 +11,16 @@ function App() {
   const [userArr, setUserArr] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:1111/get').then(res => res.json()).then(setData);
+    // eslint-disable-next-line no-undef
+    if(chrome.runtime.onMessage) {
+      // eslint-disable-next-line no-undef
+      chrome.runtime.onMessage.addListener(message => {
+        if(message.type === 'finish') {
+          setData(message.data);
+        }
+      });
+    }
+
   }, []);
 
   const handleChange = ({ target: { value }}) => {
@@ -52,30 +61,6 @@ function App() {
     })
     .then(response => response.json()).then(console.log);
   }
-
-  const handleCopy = () => {
-
-    // const items = await navigator.clipboard.read();
-    // const textBlob = await items[0].getType("text/plain");
-    // const text = await (new Response(textBlob)).text();
-
-    // navigator.clipboard.read().then(items => {
-    //   console.log(items[0].getType("text/plain"));
-      
-    //   items[0].getType("text/plain").then(textBlob => {
-    //     new Response(textBlob).text().then(console.log)
-    //   });
-    // });
-
-    navigator.clipboard.readText()
-    .then(text => {
-      console.log('Pasted content: ', text);
-    })
-    .catch(err => {
-      console.error('Failed to read clipboard contents: ', err);
-    });
-    
-  }
   
   const king = findKing(data);
 
@@ -95,7 +80,6 @@ function App() {
       </div>
       <div className={style.form}>
         <input value={value} type="text" placeholder="債主名" onChange={handleChange} />
-        <button onClick={handleCopy}>read from clipboard</button>
       </div>
 
       {value ?
