@@ -1,25 +1,5 @@
-// const rotateEvent = () => {
-//   document.body.style.transform = 'rotate(180deg)';
-//   document.body.style.backgroundColor = 'red';
-
-//   chrome.runtime.sendMessage({
-//     data: "來自訂便當"
-//   }, function (response) {
-//       console.dir(response);
-//   });
-
-// };
-// const reset = () => {
-//   document.body.style.transform = '';
-// }
-
 const onMessage = (message) => {
   switch (message.action) {
-    // case 'ROTATE':
-    //   rotateEvent();
-    //   break;
-    // case 'RESET':
-    //   reset();
     case 'CRAW_CURR':
       startCrawCurr();
       break;

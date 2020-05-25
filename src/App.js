@@ -1,8 +1,21 @@
+/* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import style from './App.module.scss';
 
 // import oriData from './data.js';
 import { byDateFormat, byUserFormat, removeByIDs, findKing } from './utils';
+
+const compareData = ({data, newData, compareField}) => {
+  let result = [...data];
+  const dataIDList = data.map(({ id }) => id);
+  const newDataIDList = newData.map(({ id }) => id);
+  newDataIDList.forEach((id, i) => {
+    if(!dataIDList.includes(id)) {
+      result = [...result, {...newData[i]}];
+    }
+  });
+  return result;
+}
 
 function App() {
 
@@ -11,12 +24,17 @@ function App() {
   const [userArr, setUserArr] = useState([]);
 
   useEffect(() => {
-    // eslint-disable-next-line no-undef
+
+    setData(JSON.parse(localStorage.getItem('arrearsData')));
+
     if(chrome.runtime.onMessage) {
-      // eslint-disable-next-line no-undef
       chrome.runtime.onMessage.addListener(message => {
         if(message.type === 'finish') {
-          setData(message.data);
+          setData(data => {
+            const result = compareData({data, newData: message.data, compareField: 'id'});
+            localStorage.setItem('arrearsData', JSON.stringify(result));
+            return result;
+          });
         }
       });
     }
@@ -84,7 +102,7 @@ function App() {
 
       {value ?
         <div className={`${style.note} ${style.center}`}>
-        {userArr.length ?
+        {userArr && userArr.length ?
           <table cellSpacing="0">
             <thead>
               <tr>
