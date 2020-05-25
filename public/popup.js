@@ -4,13 +4,18 @@ var getSelectedTab = (tab) => {
   // document.getElementById('rotate').addEventListener('click', () => sendMessage({ action: 'ROTATE' }));
   // document.getElementById('reset').addEventListener('click', () => sendMessage({ action: 'RESET' }));
   document.getElementById('crawCurr').addEventListener('click', () => {
-    window.open('chrome-extension://eodclgjopfpdljigjglkklajhkiifhjo/index.html', 'arrears');
+    window.open(`chrome-extension://${chrome.runtime.id}/index.html`, 'arrears');
     sendMessage({ action: 'CRAW_CURR' });
   });
   document.getElementById('crawTotal').addEventListener('click', () => {
-    window.open('chrome-extension://eodclgjopfpdljigjglkklajhkiifhjo/index.html', 'arrears');
+    window.open(`chrome-extension://${chrome.runtime.id}/index.html`, 'arrears');
     sendMessage({ action: 'CRAW_ALL' });
   });
+
+  document.getElementById('watch').addEventListener('click', () => {
+    window.open(`chrome-extension://${chrome.runtime.id}/index.html`, 'arrears');
+  });
+
 
   sendMessage({ action: 'SIZE' });
 }
