@@ -29,12 +29,16 @@ function App() {
 
     if(chrome.runtime.onMessage) {
       chrome.runtime.onMessage.addListener(message => {
-        if(message.type === 'finish') {
-          setData(data => {
-            const result = compareData({data, newData: message.data, compareField: 'id'});
-            localStorage.setItem('arrearsData', JSON.stringify(result));
-            return result;
-          });
+        switch (message.type) {
+          case 'finish':
+            setData(data => {
+              const result = compareData({data, newData: message.data, compareField: 'id'});
+              localStorage.setItem('arrearsData', JSON.stringify(result));
+              return result;
+            });
+            break;
+          default:
+            break;
         }
       });
     }
