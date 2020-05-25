@@ -1,4 +1,6 @@
 const onMessage = (message) => {
+  console.log('onMessage', message);
+  
   switch (message.action) {
     case 'CRAW_CURR':
       startCrawCurr();
@@ -15,7 +17,6 @@ const onMessage = (message) => {
 }
 
 chrome.runtime.onMessage.addListener(onMessage);
-
 /**
  * date
  * user
@@ -79,6 +80,7 @@ function startCrawCurr() {
     document.getElementById('orderPage').src = linkList[trID].link;
     setTimeout(() => {
       const notDoneList = [...document.getElementById('orderPage').contentWindow.document.querySelectorAll('.cell:not(.done)')].slice(0, -1).map(td => {
+        const page = +(document.querySelector('tr.navigation span em span').innerText);
         // console.log(td);
         return {
           id: getID({
@@ -86,6 +88,7 @@ function startCrawCurr() {
             bento: td.parentNode.children[0].innerText,
             user: td.innerText,
           }),
+          page,
           date: linkList[trID].date,
           store: linkList[trID].store,
           bento: td.parentNode.children[0].innerText,
@@ -152,12 +155,14 @@ function startCrawTotal() {
     setTimeout(() => {
       const notDoneList = [...document.getElementById('orderPage').contentWindow.document.querySelectorAll('.cell:not(.done)')].slice(0, -1).map(td => {
         // console.log(td);
+        const page = +(document.getElementById('orderPage').contentWindow.document.querySelector('tr.navigation span em span').innerText);
         return {
           id: getID({
             ...linkList[trID],
             bento: td.parentNode.children[0].innerText,
             user: td.innerText,
           }),
+          page,
           date: linkList[trID].date,
           store: linkList[trID].store,
           bento: td.parentNode.children[0].innerText,

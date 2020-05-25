@@ -1,6 +1,7 @@
 export function byDateFormat(data) {
   let dateObj = {}  
   let resultObj = {}
+  if(!data) return {}
   data.forEach(order => {
     dateObj[order.date] = !dateObj[order.date] ? [
       order
@@ -33,9 +34,13 @@ export function removeByIDs(data, idList) {
   return data.filter(order => !idList.includes(order.id));
 }
 
+export function findByIDs(data, idList) {
+  return data.filter(order => idList.includes(order.id));
+}
+
 export function findKing(data) {
 
-  if(!data.length) return null;
+  if(!data || !data.length) return null;
 
   const userObj = data.reduce((obj, order) => {
     if(obj[order.user]) {

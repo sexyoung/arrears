@@ -25,7 +25,7 @@ function App() {
 
   useEffect(() => {
 
-    setData(JSON.parse(localStorage.getItem('arrearsData')));
+    setData(JSON.parse(localStorage.getItem('arrearsData')) || []);
 
     if(chrome.runtime.onMessage) {
       chrome.runtime.onMessage.addListener(message => {
@@ -55,7 +55,7 @@ function App() {
     if(!confirm('繳清此便當錢?')) return;
     setValue("");
     const updateData = removeByIDs(data, userArr.map(({ id }) => id));
-    writeData(updateData);
+    // writeData(updateData);
     setData(updateData);
   }
 
@@ -63,26 +63,26 @@ function App() {
     // eslint-disable-next-line no-restricted-globals
     if(!confirm('繳清此便當錢?')) return;
     const updateData = removeByIDs(data, [id]);
-    writeData(updateData);
+    // writeData(updateData);
     setData(updateData);
   }
 
-  const writeData = data => {
-    fetch('http://localhost:1111/set', {
-      body: JSON.stringify(data), // must match 'Content-Type' header
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, same-origin, *omit
-      headers: {
-        'user-agent': 'Mozilla/4.0 MDN Example',
-        'content-type': 'application/json'
-      },
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, cors, *same-origin
-      redirect: 'follow', // manual, *follow, error
-      referrer: 'no-referrer', // *client, no-referrer
-    })
-    .then(response => response.json()).then(console.log);
-  }
+  // const writeData = data => {
+  //   fetch('http://localhost:1111/set', {
+  //     body: JSON.stringify(data), // must match 'Content-Type' header
+  //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+  //     credentials: 'same-origin', // include, same-origin, *omit
+  //     headers: {
+  //       'user-agent': 'Mozilla/4.0 MDN Example',
+  //       'content-type': 'application/json'
+  //     },
+  //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
+  //     mode: 'cors', // no-cors, cors, *same-origin
+  //     redirect: 'follow', // manual, *follow, error
+  //     referrer: 'no-referrer', // *client, no-referrer
+  //   })
+  //   .then(response => response.json()).then(console.log);
+  // }
   
   const king = findKing(data);
 
