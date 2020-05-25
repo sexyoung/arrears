@@ -3,7 +3,19 @@ import React, { useEffect, useState } from 'react';
 import style from './App.module.scss';
 
 // import oriData from './data.js';
-import { byDateFormat, byUserFormat, removeByIDs, findKing } from './utils';
+import {
+  findKing,
+  findByIDs,
+  removeByIDs,
+  byDateFormat,
+  byUserFormat,
+} from './utils';
+
+let openerTabId = null;
+
+chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+  openerTabId = tabs[0].openerTabId;
+});
 
 const compareData = ({data, newData, compareField}) => {
   let result = [...data];
@@ -55,16 +67,36 @@ function App() {
     if(!confirm('繳清此便當錢?')) return;
     setValue("");
     const updateData = removeByIDs(data, userArr.map(({ id }) => id));
-    // writeData(updateData);
-    setData(updateData);
+    const doneData = findByIDs(data, userArr.map(({ id }) => id));
+
+    if(openerTabId) {
+      chrome.tabs.sendMessage(openerTabId, {
+        action: 'DONE',
+        data: doneData
+      }, response => {
+        if(response.ok) {
+          setData(updateData);
+        }
+      });
+    }
   }
 
   const payByID = id => {
     // eslint-disable-next-line no-restricted-globals
     if(!confirm('繳清此便當錢?')) return;
     const updateData = removeByIDs(data, [id]);
-    // writeData(updateData);
-    setData(updateData);
+    const doneData = findByIDs(data, [id]);
+    
+    if(openerTabId) {
+      chrome.tabs.sendMessage(openerTabId, {
+        action: 'DONE',
+        data: doneData
+      }, response => {
+        if(response.ok) {
+          setData(updateData);
+        }
+      });
+    }
   }
 
   // const writeData = data => {

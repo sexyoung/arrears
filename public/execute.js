@@ -1,5 +1,4 @@
-const onMessage = (message) => {
-  console.log('onMessage', message);
+const onMessage = (message, sender ,sendResponse) => {
   
   switch (message.action) {
     case 'CRAW_CURR':
@@ -10,6 +9,9 @@ const onMessage = (message) => {
       break;
     case 'SIZE':
       size();
+      break;
+    case 'DONE':
+      setDone(message.data, sendResponse);
       break;
     default:
       break;
@@ -71,7 +73,7 @@ function startCrawCurr() {
   const linkList = [...document.querySelectorAll('table tbody tr')].map(tr => ({
     link: tr.children[0].querySelector('a').href,
     store: tr.children[2].innerText,
-    date: tr.children[4].innerText.slice(0, 10),
+    date: tr.children[3].innerText.slice(0, 10),
   }));
 
   openDetail(linkList);
@@ -145,7 +147,7 @@ function startCrawTotal() {
     const linkList = [...document.getElementById('listPage').contentWindow.document.querySelectorAll('table tbody tr')].map(tr => ({
       link: tr.children[0].querySelector('a').href,
       store: tr.children[2].innerText,
-      date: tr.children[4].innerText.slice(0, 10),
+      date: tr.children[3].innerText.slice(0, 10),
     }));
     openDetail(linkList);
   }
@@ -213,4 +215,9 @@ function startCrawTotal() {
       }
     }, 200);
   }
+}
+
+function setDone(data, sendResponse) {
+  console.log('SET DONE', data);
+  sendResponse({ok: false})
 }
