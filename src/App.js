@@ -26,6 +26,7 @@ const compareData = ({data, newData, compareField}) => {
       result = [...result, {...newData[i]}];
     }
   });
+  result.sort((a, b) => +new Date(b.date) - +new Date(a.date));
   return result;
 }
 
@@ -37,7 +38,14 @@ function App() {
 
   useEffect(() => {
 
-    setData(JSON.parse(localStorage.getItem('arrearsData')) || []);
+    let localData = localStorage.getItem('arrearsData')?
+      JSON.parse(localStorage.getItem('arrearsData')): [];
+    
+    if(localData.length) {
+      localData.sort((a, b) => +new Date(b.date) - +new Date(a.date));
+    }
+
+    setData(localData);
 
     if(chrome.runtime.onMessage) {
       chrome.runtime.onMessage.addListener(message => {
@@ -64,6 +72,7 @@ function App() {
 
   const handleClickKing = king => {
     setValue(king);
+    setUserArr(byUserFormat(data, king.trim()));
   }
 
   const payByUser = () => {
