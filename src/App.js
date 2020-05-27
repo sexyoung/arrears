@@ -62,6 +62,10 @@ function App() {
     setUserArr(byUserFormat(data, value.trim()));
   }
 
+  const handleClickKing = king => {
+    setValue(king);
+  }
+
   const payByUser = () => {
     // eslint-disable-next-line no-restricted-globals
     if(!confirm('繳清此便當錢?')) return;
@@ -98,28 +102,8 @@ function App() {
       });
     }
   }
-
-  // const writeData = data => {
-  //   fetch('http://localhost:1111/set', {
-  //     body: JSON.stringify(data), // must match 'Content-Type' header
-  //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-  //     credentials: 'same-origin', // include, same-origin, *omit
-  //     headers: {
-  //       'user-agent': 'Mozilla/4.0 MDN Example',
-  //       'content-type': 'application/json'
-  //     },
-  //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-  //     mode: 'cors', // no-cors, cors, *same-origin
-  //     redirect: 'follow', // manual, *follow, error
-  //     referrer: 'no-referrer', // *client, no-referrer
-  //   })
-  //   .then(response => response.json()).then(console.log);
-  // }
   
   const king = findKing(data);
-
-  // console.log(JSON.stringify(oriData));
-  
 
   const dateObj = {...byDateFormat(data)};
 
@@ -130,7 +114,11 @@ function App() {
       </h2>
       <div className={style.info}>
         <div>目前總欠債 ${data.reduce((sum, order) => sum + order.money, 0)}</div>
-        <div>{king && `欠債王 ${king.name}, 欠了 $${king.money}`}</div>
+        <div>{king && <>
+          欠債王
+          <span onClick={handleClickKing.bind(this, king.name)}>{king.name}</span>
+          欠了 ${king.money}
+        </>}</div>
       </div>
       <div className={style.form}>
         <input value={value} type="text" placeholder="債主名" onChange={handleChange} />
