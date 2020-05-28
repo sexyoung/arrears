@@ -1,0 +1,43 @@
+.PopupPage {
+  width: 200px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #f9fff9;
+
+  .notAtList {
+    a {
+      padding: 5px;
+      margin: 0 2px;
+      color: #407746;
+      font-weight: bold;
+      border-radius: 3px;
+      background-color: #d0fac0;
+    }
+    ol {
+      padding-left: 20px;
+    }
+  }
+
+  .menu {
+    flex-direction: column;
+    button {
+      flex: 1;
+      width: 100%;
+      padding: 5px;
+      display: block;
+      border: initial;
+      cursor: pointer;
+      border-radius: 3px;
+      background-color: #d0fac0;
+      &:hover {
+        color: #fff;
+        transform: scale(1.03);
+        background-color: #7ca86a;
+        transition: transform .2s;
+      }
+      &:nth-of-type(2) {
+        margin: 10px 0;
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@ const onMessage = (message, sender ,sendResponse) => {
     case 'CRAW_CURR':
       startCrawCurr();
       break;
-    case 'CRAW_ALL':
+    case 'CRAW_TOTAL':
       startCrawTotal();
       break;
     case 'SIZE':

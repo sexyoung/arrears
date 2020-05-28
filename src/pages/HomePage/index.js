@@ -17,6 +17,14 @@ const { chrome } = window;
 
 chrome && chrome.tabs && chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
   openerTabId = tabs[0].openerTabId;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const from = urlParams.get('from');
+
+  if(from !== 'WATCH') {
+    chrome.tabs.update(openerTabId, {highlighted: true});
+  }
+
 });
 
 const compareData = ({data, newData, compareField}) => {
