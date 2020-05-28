@@ -22,8 +22,13 @@ export function byDateFormat(data) {
   return resultObj;
 }
 
-export function byUserFormat(data, name) {
-  data = data.slice().filter(order => order.user.toLowerCase().includes(name.toLowerCase()));
+export function byUserFormat(data, name, isStrict = false) {
+  data = data.slice()
+            .filter(order =>
+              isStrict ?
+                order.user.toLowerCase() === name.toLowerCase():
+                order.user.toLowerCase().includes(name.toLowerCase())
+            );
   if([...new Set(data.map(({ user }) => user))].length > 1) return [];
   
   data.sort((a, b) => b.date - a.date);

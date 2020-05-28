@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "訂便當欠款記錄",
+  "name": "訂便當欠款記錄",
   "manifest_version": 2,
   "version": "1.0.0",
   "browser_action": {
