@@ -1,10 +1,16 @@
 {
-  "short_name": "訂便當欠款記錄",
-  "name": "訂便當欠款記錄",
+  "short_name": "訂便當欠款",
+  "name": "訂便當欠款",
   "manifest_version": 2,
   "version": "1.0.0",
+  "description": "方便截取訂便當網站中欠債的名單，並統一結清有還債的人",
   "browser_action": {
     "default_popup": "popup/index.html"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   },
   "permissions": [
     "storage",
