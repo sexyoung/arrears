@@ -300,12 +300,21 @@ function setDone(data, sendResponse) {
               /** 進去order頁 */
               setTimeout(() => {
                 // 繳!!!!!!!
-                // document.getElementById('listPage').contentWindow.document.querySelector('#payTabs table tbody .notPaid a').click();
+                
+                // 如果找不到(-1)，代表 app 那邊沒有刪除已登記的資料
                 const notPaidIndex = [...document.getElementById('listPage').contentWindow.document.querySelectorAll('#payTabs table tbody .notPaid a')]
                   .map(dom => dom.innerText)
                   .findIndex(name => name.trim() === dateOrder.user.trim());
                 
-                document.getElementById('listPage').contentWindow.document.querySelectorAll('#payTabs table tbody .notPaid a')[notPaidIndex].click();
+                if(notPaidIndex === -1) {
+                  chrome.runtime.sendMessage({
+                    type: 'removeHadDone',
+                    id: dateOrder.id,
+                  });
+                } else {
+                  document.getElementById('listPage').contentWindow.document.querySelectorAll('#payTabs table tbody .notPaid a')[notPaidIndex].click();
+                }
+
                 setTimeout(() => {
                   document.getElementById('listPage').remove();
                   if(data.length) {

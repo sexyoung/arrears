@@ -71,6 +71,17 @@ export function HomePage() {
               return result;
             });
             break;
+          case 'removeHadDone':
+            setData(data => {
+              const dataIndex = data.findIndex(item => item.id === message.id);
+              return dataIndex > -1 ?
+                [
+                  ...data.slice(0, dataIndex),
+                  ...data.slice(dataIndex + 1),
+                ]: data;
+              
+            });
+            break;
           default:
             break;
         }
