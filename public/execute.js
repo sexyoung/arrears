@@ -17,6 +17,7 @@ const onMessage = (message, sender ,sendResponse) => {
     default:
       break;
   }
+  return true;
 }
 
 chrome.runtime.onMessage.addListener(onMessage);

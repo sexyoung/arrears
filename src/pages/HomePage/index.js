@@ -48,6 +48,7 @@ export function HomePage() {
   const [data, setData] = useState([]);
   const [value, setValue] = useState("");
   const [userArr, setUserArr] = useState([]);
+  const [isSetting, setIsSetting] = useState(false);
 
   useEffect(() => {
 
@@ -99,18 +100,7 @@ export function HomePage() {
     const updateData = removeByIDs(data, userArr.map(({ id }) => id));
     const doneData = findByIDs(data, userArr.map(({ id }) => id));
 
-    if(openerTabId && chrome) {
-      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(openerTabId, {
-          action: 'DONE',
-          data: doneData
-        }, response => {
-          // if(response.ok) {
-            setData(updateData);
-          // }
-        });
-      });
-    }
+    sync2Dinbendon({doneData, updateData});
   }
 
   const payByID = id => {
@@ -119,15 +109,23 @@ export function HomePage() {
     const updateData = removeByIDs(data, [id]);
     const doneData = findByIDs(data, [id]);
     
+    sync2Dinbendon({doneData, updateData});
+  }
+
+  const sync2Dinbendon = ({doneData, updateData}) => {
     if(openerTabId && chrome) {
+      setIsSetting(true);
+      document.body.style.overflow = 'hidden';
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(openerTabId, {
           action: 'DONE',
           data: doneData
         }, response => {
-          // if(response.ok) {
+          if(response.ok) {
             setData(updateData);
-          // }
+            setIsSetting(false);
+            document.body.style.overflow = '';
+          }
         });
       });
     }
@@ -139,6 +137,13 @@ export function HomePage() {
 
   return (
     <div className={style.HomePage}>
+      {isSetting && (
+        <div className={style.modalBG}>
+          <div className={style.modal}>
+            同步至訂便當中...
+          </div>
+        </div>
+      )}
       <h2 className={style.title}>
         訂便當欠款記錄
       </h2>

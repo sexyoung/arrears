@@ -2,6 +2,24 @@
   width: 1300px;
   margin: 20px auto;
 
+  .modalBG {
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(#000, .8);
+    .modal {
+      top: 50%;
+      left: 50%;
+      padding: 10px;
+      font-size: 2rem;
+      position: absolute;
+      background-color: #fff;
+      transform: translate(-50%, -50%);
+    }
+  }
+
   .title {
     margin: 0;
     text-align: center;
