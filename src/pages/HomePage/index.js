@@ -99,14 +99,16 @@ export function HomePage() {
     const updateData = removeByIDs(data, userArr.map(({ id }) => id));
     const doneData = findByIDs(data, userArr.map(({ id }) => id));
 
-    if(openerTabId) {
-      chrome && chrome.tabs.sendMessage(openerTabId, {
-        action: 'DONE',
-        data: doneData
-      }, response => {
-        if(response.ok) {
-          setData(updateData);
-        }
+    if(openerTabId && chrome) {
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(openerTabId, {
+          action: 'DONE',
+          data: doneData
+        }, response => {
+          // if(response.ok) {
+            setData(updateData);
+          // }
+        });
       });
     }
   }
@@ -117,14 +119,16 @@ export function HomePage() {
     const updateData = removeByIDs(data, [id]);
     const doneData = findByIDs(data, [id]);
     
-    if(openerTabId) {
-      chrome && chrome.tabs.sendMessage(openerTabId, {
-        action: 'DONE',
-        data: doneData
-      }, response => {
-        if(response.ok) {
-          setData(updateData);
-        }
+    if(openerTabId && chrome) {
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(openerTabId, {
+          action: 'DONE',
+          data: doneData
+        }, response => {
+          // if(response.ok) {
+            setData(updateData);
+          // }
+        });
       });
     }
   }

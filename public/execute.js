@@ -79,10 +79,10 @@ function startCrawCurr() {
   document.body.innerHTML = "<iframe id='orderPage' name='orderPage'></iframe>" + document.body.innerHTML;
 
   const linkList = [...document.querySelectorAll('table tbody tr')].map(tr => ({
-    orderID: tr.children[0].innerText,
+    orderID: tr.children[0].innerText.trim(),
     link: tr.children[0].querySelector('a').href,
-    store: tr.children[2].innerText,
-    date: tr.children[3].innerText.slice(0, 10),
+    store: tr.children[2].innerText.trim(),
+    date: tr.children[3].innerText.trim().slice(0, 10),
   }));
 
   openDetail(linkList);
@@ -91,21 +91,21 @@ function startCrawCurr() {
     document.getElementById('orderPage').src = linkList[trID].link;
     setTimeout(() => {
       const notDoneList = [...document.getElementById('orderPage').contentWindow.document.querySelectorAll('.cell:not(.done)')].slice(0, -1).map(td => {
-        const page = +(document.querySelector('tr.navigation span em span').innerText);
+        const page = +(document.querySelector('tr.navigation span em span').innerText.trim());
         // console.log(td);
         return {
           id: getID({
             ...linkList[trID],
-            bento: td.parentNode.children[0].innerText,
-            user: td.innerText,
+            bento: td.parentNode.children[0].innerText.trim(),
+            user: td.innerText.trim(),
           }),
           page,
           date: linkList[trID].date,
           orderID: linkList[trID].orderID,
           store: linkList[trID].store,
-          bento: td.parentNode.children[0].innerText,
-          money: +td.parentNode.children[2].innerText,
-          user: td.innerText
+          bento: td.parentNode.children[0].innerText.trim(),
+          money: +td.parentNode.children[2].innerText.trim(),
+          user: td.innerText.trim()
         }
       });
       data = [...data, ...notDoneList];
@@ -155,10 +155,10 @@ function startCrawTotal() {
   
   function parseList() {
     const linkList = [...document.getElementById('listPage').contentWindow.document.querySelectorAll('table tbody tr')].map(tr => ({
-      orderID: tr.children[0].innerText,
+      orderID: tr.children[0].innerText.trim(),
       link: tr.children[0].querySelector('a').href,
-      store: tr.children[2].innerText,
-      date: tr.children[3].innerText.slice(0, 10),
+      store: tr.children[2].innerText.trim(),
+      date: tr.children[3].innerText.trim().slice(0, 10),
     }));
     openDetail(linkList);
   }
@@ -172,16 +172,16 @@ function startCrawTotal() {
         return {
           id: getID({
             ...linkList[trID],
-            bento: td.parentNode.children[0].innerText,
-            user: td.innerText,
+            bento: td.parentNode.children[0].innerText.trim(),
+            user: td.innerText.trim(),
           }),
           page,
           date: linkList[trID].date,
           orderID: linkList[trID].orderID,
           store: linkList[trID].store,
-          bento: td.parentNode.children[0].innerText,
-          money: +td.parentNode.children[2].innerText,
-          user: td.innerText
+          bento: td.parentNode.children[0].innerText.trim(),
+          money: +td.parentNode.children[2].innerText.trim(),
+          user: td.innerText.trim()
         }
       });
       data = [...data, ...notDoneList];
@@ -234,8 +234,8 @@ function startCrawTotal() {
 }
 
 function setDone(data, sendResponse) {
-  console.log('SET DONE', data);
-  console.log(getPageTotal());
+  // console.log('SET DONE', data);
+  // console.log(getPageTotal());
 
 
   const DOM = {
@@ -271,7 +271,7 @@ function setDone(data, sendResponse) {
           // console.log([...document.getElementById('listPage').contentWindow.document.getElementById('centerTabs_panel_orders_topToolbars_1_toolbar_span_navigator').children].map(dom => dom.innerText));
         
     
-          const pageIndex = [...document.getElementById('listPage').contentWindow.document.getElementById('centerTabs_panel_orders_topToolbars_1_toolbar_span_navigator').children].map(dom => dom.innerText).findIndex(v => v.trim() === `${dateOrder.page}`);
+          const pageIndex = [...document.getElementById('listPage').contentWindow.document.getElementById('centerTabs_panel_orders_topToolbars_1_toolbar_span_navigator').children].map(dom => dom.innerText.trim()).findIndex(v => v.trim() === `${dateOrder.page}`);
       
           // console.log(pageIndex);
           
@@ -289,7 +289,7 @@ function setDone(data, sendResponse) {
 
           // 點完正確的頁面後，找正確的訂單
           setTimeout(() => {
-            const trIndex = [...document.getElementById('listPage').contentWindow.document.querySelectorAll('table tbody tr')].map(dom => dom.children[0].innerText).findIndex(v => v === dateOrder.orderID);
+            const trIndex = [...document.getElementById('listPage').contentWindow.document.querySelectorAll('table tbody tr')].map(dom => dom.children[0].innerText.trim()).findIndex(v => v === dateOrder.orderID.trim());
             document.getElementById('listPage').contentWindow.document.querySelectorAll(`table tbody tr:nth-of-type(${trIndex + 1}) a`)[1].click();
 
             /** 輸入管理密碼 */
@@ -302,7 +302,7 @@ function setDone(data, sendResponse) {
                 // document.getElementById('listPage').contentWindow.document.querySelector('#payTabs table tbody .notPaid a').click();
                 const notPaidIndex = [...document.getElementById('listPage').contentWindow.document.querySelectorAll('#payTabs table tbody .notPaid a')]
                   .map(dom => dom.innerText)
-                  .findIndex(name => name === dateOrder.user);
+                  .findIndex(name => name.trim() === dateOrder.user.trim());
                 
                 document.getElementById('listPage').contentWindow.document.querySelectorAll('#payTabs table tbody .notPaid a')[notPaidIndex].click();
                 setTimeout(() => {
@@ -316,7 +316,7 @@ function setDone(data, sendResponse) {
                 }, 200);
               }, 200);
 
-            }, 200);
+            }, 300);
             
           }, 500);
     
