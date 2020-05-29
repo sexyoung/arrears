@@ -1,6 +1,26 @@
+$v: .03;
+@keyframes noteAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(#{1 - $v});
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .HomePage {
   width: 1300px;
   margin: 20px auto;
+
+  .user {
+    cursor: pointer;
+    font-weight: bold;
+    &:hover {
+      color: #859c0c;
+    }
+  }
 
   .modalBG {
     top: 0;
@@ -62,6 +82,17 @@
     display: inline-block;
     box-sizing: border-box;
     background-color: #f1d98a;
+    opacity: 0;
+    animation: noteAnimation .3s ease-in-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+
+    @for $i from 1 through 20 {
+      &:nth-of-type(#{$i}) {
+        animation-delay: #{.05 * $i}s;
+      }
+    }
+    
 
     &.center {
       width: 400px;

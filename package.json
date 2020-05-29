@@ -43,7 +43,8 @@
   "reactSnap": {
     "include": [
       "/",
-      "/popup"
+      "/popup",
+      "/ranking"
     ]
   }
 }

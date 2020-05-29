@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState, createRef } from 'react';
+import { Link } from "react-router-dom";
 import style from './style.module.scss';
 
 // import oriData from './data.js';
@@ -88,6 +89,13 @@ export function HomePage() {
       });
     }
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const user = urlParams.get('user');
+    if(user) {
+      setValue(user);
+      setUserArr(byUserFormat(localData, user.trim(), strictDOM.current.checked));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = ({ target: { value }}) => {
@@ -162,8 +170,16 @@ export function HomePage() {
         <div>目前總欠債 ${data.reduce((sum, order) => sum + order.money, 0)}</div>
         <div>{king && <>
           欠債王
-          <span onClick={handleClickKing.bind(this, king.name)}>{king.name}</span>
+          <span
+            className={style.user}
+            onClick={handleClickKing.bind(this, king.name)}
+          >
+            {king.name}
+          </span>
           欠了 ${king.money}
+          (
+            <Link to="/ranking">看總排行</Link>
+          )
         </>}</div>
       </div>
       <div className={style.form}>
@@ -226,7 +242,14 @@ export function HomePage() {
                 {dateObj[date].map((order, i) =>
                   <tr key={i}>
                     <td>{order.bento}</td>
-                    <td>{order.user}</td>
+                    <td>
+                      <span
+                        className={style.user}
+                        onClick={handleClickKing.bind(this, order.user)}
+                      >
+                        {order.user}
+                      </span>
+                    </td>
                     <td>${order.money}</td>
                     <td><button className={style.paied} onClick={payByID.bind(this, order.id)}>繳!</button></td>
                   </tr>

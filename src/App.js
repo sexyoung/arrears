@@ -8,18 +8,16 @@ import {
 import {
   HomePage,
   PopupPage,
+  RankingPage,
 } from 'pages';
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/popup">
-          <PopupPage />
-        </Route>
-        <Route path="/">
-          <HomePage />
-        </Route>
+        <Route path="/ranking"><RankingPage /></Route>
+        <Route path="/popup"><PopupPage /></Route>
+        <Route path="/"><HomePage /></Route>
       </Switch>
     </Router>
   )
