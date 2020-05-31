@@ -72,6 +72,13 @@ export function HomePage() {
               return result;
             });
             break;
+          case 'finishTotal':
+            setData(data => {
+              const result = message.data;
+              localStorage.setItem('arrearsData', JSON.stringify(result));
+              return result;
+            });
+            break;
           case 'removeHadDone':
             setData(data => {
               const dataIndex = data.findIndex(item => item.id === message.id);

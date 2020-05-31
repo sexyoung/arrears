@@ -199,7 +199,7 @@ function startCrawTotal() {
           document.getElementById('orderPage').remove();
           document.getElementById('crawingBG').remove();
           chrome.runtime.sendMessage({
-            type: 'finish',
+            type: 'finishTotal',
             data,
           });
           return;
